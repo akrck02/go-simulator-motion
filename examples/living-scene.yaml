@@ -1,0 +1,28 @@
+# A living scene: the day passes, the wind gusts, clouds drift, the tide rises and falls, and
+# whatever asks for it in its properties (bob, spin, path) moves.
+#
+#   cd ../go-simulator && go run ./cmd/simulator -rules ../go-simulator-motion/examples/living-scene.yaml scene.glb
+#
+# The plugin runs with "go run" from this repository, so it needs no installing. After
+# "go install github.com/akrck02/go-simulator-motion@latest" the command can be just
+# [go-simulator-motion].
+plugins:
+  - name: motion
+    command: [go, run, .]
+    directory: ..
+
+stages:
+  - name: motion
+    clock: realtime
+    rules:
+      - rule: day_cycle
+        with: {seconds_per_day: 120}
+        enabled: false
+        toggle_key: T
+      - rule: gusts
+        with: {variation: 0.5, veering: 0.35}
+      - rule: cloud_drift
+      - rule: tides
+        with: {seconds_per_day: 120}
+        toggle_key: M
+      - rule: entity_motion
