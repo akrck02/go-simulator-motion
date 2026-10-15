@@ -1,6 +1,6 @@
 # 🚀 Getting started
 
-## 📁 The folders it needs
+## The folders it needs
 
 The plugin is developed next to the projects it uses: `go.mod` replaces go-simulator and
 go-renderer with the folders beside this one. Clone them side by side:
@@ -11,7 +11,7 @@ go-simulator/
 go-simulator-motion/   ← this repository
 ```
 
-## ▶️ Running the example
+## Running the example
 
 ```bash
 cd ../go-simulator
@@ -51,7 +51,7 @@ All the rules sit in one stage on a `realtime` clock, so they follow the viewer'
 cycle starts switched off; the rules file's [reference](https://github.com/akrck02/go-simulator/blob/main/docs/rules-files.md)
 explains every key.
 
-## ⌨️ The keys
+## The keys
 
 | Key | What it does |
 |---|---|
@@ -62,7 +62,7 @@ explains every key.
 
 The viewer's own keys (moving the camera and so on) work as usual.
 
-## 🚤 Asking for a motion in a scene
+## Asking for a motion in a scene
 
 glTF node extras arrive as the entity's properties, so a scene asks for a motion without any code.
 A boat that bobs, sails that turn and a ferry on a loop, in a scene's `nodes`:
@@ -77,7 +77,7 @@ A boat that bobs, sails that turn and a ferry on a loop, in a scene's `nodes`:
 Every key and what it is when left out are in [motions](model.md). Entities that other
 plugins add later with these properties start moving too.
 
-## 🧪 The tests
+## The tests
 
 ```bash
 go vet ./...

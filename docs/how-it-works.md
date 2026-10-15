@@ -1,6 +1,6 @@
 # 🔍 How it works
 
-## 🧩 How the plugin fits go-simulator
+## How the plugin fits go-simulator
 
 <p align="center">
   <img alt="The rules file and the scene go into go-simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="images/how-it-works.svg" width="880">
@@ -23,7 +23,7 @@ The renderer then draws the sky, the sway of plants, the clouds and the water fr
 and the entities where their transforms put them. Shapes are in world units and fields in physical
 units, as go-simulator's [vocabulary](https://github.com/akrck02/go-simulator/blob/main/docs/vocabulary.md) lists.
 
-## ⏱️ How the rules are stepped over time
+## How the rules are stepped over time
 
 <p align="center">
   <img alt="Five lanes, one per rule, with a block for every step. day_cycle has no blocks until T is pressed; a grey band where P pauses has no blocks in any lane; after the speed is doubled the blocks are twice as long; after M is pressed the tides lane stops" src="images/rule-over-time.svg" width="880">
@@ -46,7 +46,7 @@ The rules work in rates, not frames: the sun turns `2π × step / seconds_per_da
 scene after the same time. `gusts` and `entity_motion` keep their own count of the seconds they
 have been stepped, so a rule switched off and on again picks up where it stopped.
 
-## 🖼️ How the pictures were made
+## How the pictures were made
 
 The pictures in these pages that show motion (the bay at the top of the README, the strips, the sky
 and the clouds, and the three entity panels) were drawn from the plugin's own answers. A small

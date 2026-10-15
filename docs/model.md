@@ -10,7 +10,7 @@ wind, clouds, tide) and the transforms of entities that ask for a motion. Its ru
   <img alt="Two boxes: the environment, where day_cycle turns the sun direction, gusts the wind, cloud_drift the cloud offset and tides the tide angle; and entities that ask, where the properties bob, spin and path become transforms through entity_motion" src="images/model.svg" width="880">
 </p>
 
-## ☀️ The environment
+## The environment
 
 | Rule | What it does |
 |---|---|
@@ -40,7 +40,7 @@ The sun turns around the celestial pole, so it rises, climbs and sets along an a
 day it is below the horizon. The clouds move with the wind, faster when it blows harder: at
 no wind at all they still creep, at 0.2 × `speed`, and at strength 1 they move at 1.2 × `speed`.
 
-## 🚤 Entities
+## Entities
 
 `entity_motion` moves the entities that ask for it in their properties. glTF node extras arrive as
 properties, so a scene can ask for motions without any code.
@@ -77,7 +77,7 @@ What each key is when it is left out:
   it is on. A loop goes back to the first point and starts over; without one, the entity comes back
   the same way. Where the entity rests is replaced by the route; its turn and scale are kept.
 
-## ▶️ Use
+## Use
 
 ```bash
 cd ../go-simulator

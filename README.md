@@ -1,6 +1,6 @@
 <div align="center">
 
-# go-simulator-motion
+# Go motion simulator
 
 **The motions of a living scene, as a plugin for [go-simulator](https://github.com/akrck02/go-simulator).**
 The day passes, the wind gusts, clouds drift, the tide rises and falls, and whatever asks for it in
