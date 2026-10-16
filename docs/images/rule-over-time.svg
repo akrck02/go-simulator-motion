@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 396" width="880" height="396" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f8fa; stroke: #d0d7de; }
+    .accent { fill: #ddf4ff; stroke: #54aeff; }
+    .warm { fill: #fff1e5; stroke: #fb8f44; }
+    .title { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .text { fill: #59636e; font-size: 12.5px; }
+    .code { fill: #0969da; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .label { fill: #59636e; font-size: 11.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .arrow { stroke: #8c959f; stroke-width: 1.6; fill: none; }
+    .dashed { stroke: #8c959f; stroke-width: 1.2; fill: none; stroke-dasharray: 4 4; }
+    .head { fill: #8c959f; }
+    .grid { stroke: #d0d7de; stroke-width: 1; fill: none; }
+    .on { fill: #0969da; } .on2 { fill: #bc4c00; }
+    .pause { fill: #eaeef2; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .box { fill: #161b22; stroke: #30363d; }
+      .accent { fill: #0c2d4b; stroke: #1f6feb; }
+      .warm { fill: #3d1d00; stroke: #db6d28; }
+      .title { fill: #e6edf3; }
+      .text, .label { fill: #9198a1; }
+      .code { fill: #4493f8; }
+      .arrow, .dashed { stroke: #6e7681; }
+      .head { fill: #6e7681; }
+      .grid { stroke: #30363d; }
+      .on { fill: #4493f8; } .on2 { fill: #f0883e; }
+      .pause { fill: #21262d; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="head" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="880" height="396" rx="12"/>
+  <text class="title" x="24" y="34" text-anchor="start">How the rules are stepped over time</text>
+  <text class="text" x="24" y="54" text-anchor="start">every frame the host advances the realtime stage; each switched-on rule gets one step of that many seconds</text>
+  <rect class="pause" x="472" y="78" width="90" height="174"/>
+  <text class="label" x="517" y="72" text-anchor="middle">P: paused</text>
+  <text class="code" x="24" y="101" text-anchor="start">day_cycle</text>
+  <line class="grid" x1="160" y1="110" x2="850" y2="110"/>
+  <rect class="on2" x="316" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="342" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="368" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="394" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="420" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="446" y="88" width="22" height="20" rx="3"/>
+  <rect class="on2" x="566" y="88" width="44" height="20" rx="3"/>
+  <rect class="on2" x="614" y="88" width="44" height="20" rx="3"/>
+  <rect class="on2" x="662" y="88" width="44" height="20" rx="3"/>
+  <rect class="on2" x="710" y="88" width="44" height="20" rx="3"/>
+  <rect class="on2" x="758" y="88" width="44" height="20" rx="3"/>
+  <rect class="on2" x="806" y="88" width="44" height="20" rx="3"/>
+  <text class="code" x="24" y="135" text-anchor="start">gusts</text>
+  <line class="grid" x1="160" y1="144" x2="850" y2="144"/>
+  <rect class="on" x="160" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="186" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="212" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="238" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="264" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="290" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="316" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="342" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="368" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="394" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="420" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="446" y="122" width="22" height="20" rx="3"/>
+  <rect class="on" x="566" y="122" width="44" height="20" rx="3"/>
+  <rect class="on" x="614" y="122" width="44" height="20" rx="3"/>
+  <rect class="on" x="662" y="122" width="44" height="20" rx="3"/>
+  <rect class="on" x="710" y="122" width="44" height="20" rx="3"/>
+  <rect class="on" x="758" y="122" width="44" height="20" rx="3"/>
+  <rect class="on" x="806" y="122" width="44" height="20" rx="3"/>
+  <text class="code" x="24" y="169" text-anchor="start">cloud_drift</text>
+  <line class="grid" x1="160" y1="178" x2="850" y2="178"/>
+  <rect class="on" x="160" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="186" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="212" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="238" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="264" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="290" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="316" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="342" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="368" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="394" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="420" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="446" y="156" width="22" height="20" rx="3"/>
+  <rect class="on" x="566" y="156" width="44" height="20" rx="3"/>
+  <rect class="on" x="614" y="156" width="44" height="20" rx="3"/>
+  <rect class="on" x="662" y="156" width="44" height="20" rx="3"/>
+  <rect class="on" x="710" y="156" width="44" height="20" rx="3"/>
+  <rect class="on" x="758" y="156" width="44" height="20" rx="3"/>
+  <rect class="on" x="806" y="156" width="44" height="20" rx="3"/>
+  <text class="code" x="24" y="203" text-anchor="start">tides</text>
+  <line class="grid" x1="160" y1="212" x2="850" y2="212"/>
+  <rect class="on" x="160" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="186" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="212" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="238" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="264" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="290" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="316" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="342" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="368" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="394" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="420" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="446" y="190" width="22" height="20" rx="3"/>
+  <rect class="on" x="566" y="190" width="44" height="20" rx="3"/>
+  <rect class="on" x="614" y="190" width="44" height="20" rx="3"/>
+  <rect class="on" x="662" y="190" width="44" height="20" rx="3"/>
+  <rect class="on" x="710" y="190" width="44" height="20" rx="3"/>
+  <text class="code" x="24" y="237" text-anchor="start">entity_motion</text>
+  <line class="grid" x1="160" y1="246" x2="850" y2="246"/>
+  <rect class="on" x="160" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="186" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="212" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="238" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="264" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="290" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="316" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="342" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="368" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="394" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="420" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="446" y="224" width="22" height="20" rx="3"/>
+  <rect class="on" x="566" y="224" width="44" height="20" rx="3"/>
+  <rect class="on" x="614" y="224" width="44" height="20" rx="3"/>
+  <rect class="on" x="662" y="224" width="44" height="20" rx="3"/>
+  <rect class="on" x="710" y="224" width="44" height="20" rx="3"/>
+  <rect class="on" x="758" y="224" width="44" height="20" rx="3"/>
+  <rect class="on" x="806" y="224" width="44" height="20" rx="3"/>
+  <line class="dashed" x1="314" y1="74" x2="314" y2="284"/>
+  <text class="label" x="318" y="288" text-anchor="start">T: day_cycle on (the example starts it off)</text>
+  <line class="dashed" x1="564" y1="74" x2="564" y2="302"/>
+  <text class="label" x="568" y="306" text-anchor="start">. : twice the speed, longer steps</text>
+  <line class="dashed" x1="724" y1="74" x2="724" y2="320"/>
+  <text class="label" x="728" y="324" text-anchor="start">M: tides off</text>
+  <text class="text" x="24" y="358" text-anchor="start">Each step: the host sends the stage time and the step in seconds; the rule reads its copy of the world</text>
+  <text class="text" x="24" y="376" text-anchor="start">and answers with changes, which the host applies and forwards to the other plugins that read them.</text>
+</svg>

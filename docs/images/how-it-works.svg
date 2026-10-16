@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f8fa; stroke: #d0d7de; }
+    .accent { fill: #ddf4ff; stroke: #54aeff; }
+    .warm { fill: #fff1e5; stroke: #fb8f44; }
+    .title { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .text { fill: #59636e; font-size: 12.5px; }
+    .code { fill: #0969da; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .label { fill: #59636e; font-size: 11.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .arrow { stroke: #8c959f; stroke-width: 1.6; fill: none; }
+    .dashed { stroke: #8c959f; stroke-width: 1.2; fill: none; stroke-dasharray: 4 4; }
+    .head { fill: #8c959f; }
+    .grid { stroke: #d0d7de; stroke-width: 1; fill: none; }
+    .on { fill: #0969da; } .on2 { fill: #bc4c00; }
+    .pause { fill: #eaeef2; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .box { fill: #161b22; stroke: #30363d; }
+      .accent { fill: #0c2d4b; stroke: #1f6feb; }
+      .warm { fill: #3d1d00; stroke: #db6d28; }
+      .title { fill: #e6edf3; }
+      .text, .label { fill: #9198a1; }
+      .code { fill: #4493f8; }
+      .arrow, .dashed { stroke: #6e7681; }
+      .head { fill: #6e7681; }
+      .grid { stroke: #30363d; }
+      .on { fill: #4493f8; } .on2 { fill: #f0883e; }
+      .pause { fill: #21262d; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="head" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="880" height="320" rx="12"/>
+  <rect class="box" x="24" y="30" width="180" height="96" rx="10" stroke-width="1.2"/>
+  <text class="code" x="114" y="58" text-anchor="middle">living-scene.yaml</text>
+  <text class="title" x="114" y="82" text-anchor="middle">The rules file</text>
+  <text class="text" x="114" y="104" text-anchor="middle">which rules, on a</text>
+  <text class="text" x="114" y="120" text-anchor="middle">realtime clock</text>
+  <rect class="box" x="24" y="186" width="180" height="110" rx="10" stroke-width="1.2"/>
+  <text class="code" x="114" y="214" text-anchor="middle">scene.glb</text>
+  <text class="title" x="114" y="238" text-anchor="middle">The scene</text>
+  <text class="text" x="114" y="260" text-anchor="middle">node extras: bob, spin,</text>
+  <text class="text" x="114" y="277" text-anchor="middle">path become properties</text>
+  <path class="arrow" d="M204,78 C230,78 230,140 256,140" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M204,240 C230,240 230,190 256,190" marker-end="url(#arrow)"/>
+  <rect class="box" x="260" y="70" width="232" height="180" rx="10" stroke-width="1.2"/>
+  <text class="code" x="376" y="98" text-anchor="middle">go-simulator</text>
+  <text class="title" x="376" y="122" text-anchor="middle">The host and its viewer</text>
+  <text class="text" x="376" y="146" text-anchor="middle">keeps the world, moves the clock:</text>
+  <text class="text" x="376" y="163" text-anchor="middle">real seconds × speed each frame</text>
+  <text class="label" x="376" y="192" text-anchor="middle">P pause · , . speed</text>
+  <text class="label" x="376" y="210" text-anchor="middle">toggle keys: T day, M tide</text>
+  <text class="text" x="376" y="236" text-anchor="middle">draws with go-renderer</text>
+  <path class="arrow" d="M492,128 H590" marker-end="url(#arrow)"/>
+  <text class="label" x="541" y="118" text-anchor="middle">step</text>
+  <path class="arrow" d="M590,192 H492" marker-end="url(#arrow)"/>
+  <text class="label" x="541" y="212" text-anchor="middle">changes</text>
+  <text class="label" x="541" y="164" text-anchor="middle">stdin/stdout</text>
+  <rect class="accent" x="594" y="40" width="262" height="240" rx="10" stroke-width="1.2"/>
+  <text class="code" x="725" y="68" text-anchor="middle">go-simulator-motion</text>
+  <text class="title" x="725" y="92" text-anchor="middle">The motion plugin</text>
+  <text class="text" x="725" y="114" text-anchor="middle">reads its copy of the world,</text>
+  <text class="text" x="725" y="131" text-anchor="middle">answers with changes</text>
+  <text class="label" x="620" y="158" text-anchor="start">day_cycle</text>
+  <text class="label" x="830" y="158" text-anchor="end">sun</text>
+  <text class="label" x="620" y="180" text-anchor="start">gusts</text>
+  <text class="label" x="830" y="180" text-anchor="end">wind</text>
+  <text class="label" x="620" y="202" text-anchor="start">cloud_drift</text>
+  <text class="label" x="830" y="202" text-anchor="end">clouds</text>
+  <text class="label" x="620" y="224" text-anchor="start">tides</text>
+  <text class="label" x="830" y="224" text-anchor="end">tide angle</text>
+  <text class="label" x="620" y="246" text-anchor="start">entity_motion</text>
+  <text class="label" x="830" y="246" text-anchor="end">transforms</text>
+</svg>

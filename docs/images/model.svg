@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f8fa; stroke: #d0d7de; }
+    .accent { fill: #ddf4ff; stroke: #54aeff; }
+    .warm { fill: #fff1e5; stroke: #fb8f44; }
+    .title { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .text { fill: #59636e; font-size: 12.5px; }
+    .code { fill: #0969da; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .label { fill: #59636e; font-size: 11.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .arrow { stroke: #8c959f; stroke-width: 1.6; fill: none; }
+    .dashed { stroke: #8c959f; stroke-width: 1.2; fill: none; stroke-dasharray: 4 4; }
+    .head { fill: #8c959f; }
+    .grid { stroke: #d0d7de; stroke-width: 1; fill: none; }
+    .on { fill: #0969da; } .on2 { fill: #bc4c00; }
+    .pause { fill: #eaeef2; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .box { fill: #161b22; stroke: #30363d; }
+      .accent { fill: #0c2d4b; stroke: #1f6feb; }
+      .warm { fill: #3d1d00; stroke: #db6d28; }
+      .title { fill: #e6edf3; }
+      .text, .label { fill: #9198a1; }
+      .code { fill: #4493f8; }
+      .arrow, .dashed { stroke: #6e7681; }
+      .head { fill: #6e7681; }
+      .grid { stroke: #30363d; }
+      .on { fill: #4493f8; } .on2 { fill: #f0883e; }
+      .pause { fill: #21262d; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="head" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="880" height="320" rx="12"/>
+  <rect class="accent" x="24" y="24" width="404" height="272" rx="10" stroke-width="1.2"/>
+  <text class="title" x="44" y="54" text-anchor="start">The environment</text>
+  <text class="text" x="44" y="74" text-anchor="start">one per world; each rule turns one part of it</text>
+  <text class="code" x="44" y="106" text-anchor="start">day_cycle</text>
+  <text class="title" x="176" y="106" text-anchor="start">sun direction</text>
+  <text class="text" x="176" y="124" text-anchor="start">turns around the celestial pole</text>
+  <text class="code" x="44" y="150" text-anchor="start">gusts</text>
+  <text class="title" x="176" y="150" text-anchor="start">wind</text>
+  <text class="text" x="176" y="168" text-anchor="start">swings round the starting wind</text>
+  <text class="code" x="44" y="194" text-anchor="start">cloud_drift</text>
+  <text class="title" x="176" y="194" text-anchor="start">cloud offset</text>
+  <text class="text" x="176" y="212" text-anchor="start">moves with the wind</text>
+  <text class="code" x="44" y="238" text-anchor="start">tides</text>
+  <text class="title" x="176" y="238" text-anchor="start">tide angle</text>
+  <text class="text" x="176" y="256" text-anchor="start">a full turn per tidal period</text>
+  <text class="text" x="44" y="284" text-anchor="start">the renderer draws day, sky, sway and water from them</text>
+  <rect class="warm" x="452" y="24" width="404" height="272" rx="10" stroke-width="1.2"/>
+  <text class="title" x="472" y="54" text-anchor="start">Entities that ask</text>
+  <text class="text" x="472" y="74" text-anchor="start">entity_motion reads these properties, writes transforms</text>
+  <text class="code" x="472" y="108" text-anchor="start">"bob"</text>
+  <text class="title" x="548" y="108" text-anchor="start">floats up and down, rolls a little</text>
+  <text class="label" x="548" y="126" text-anchor="start">height, period, roll</text>
+  <text class="code" x="472" y="158" text-anchor="start">"spin"</text>
+  <text class="title" x="548" y="158" text-anchor="start">turns about a local axis</text>
+  <text class="label" x="548" y="176" text-anchor="start">axis, speed</text>
+  <text class="code" x="472" y="208" text-anchor="start">"path"</text>
+  <text class="title" x="548" y="208" text-anchor="start">follows points, facing ahead</text>
+  <text class="label" x="548" y="226" text-anchor="start">points, speed, loop</text>
+  <text class="text" x="472" y="262" text-anchor="start">one motion each: bob wins over spin, spin over path</text>
+  <text class="text" x="472" y="282" text-anchor="start">entities added later start moving when they appear</text>
+</svg>
