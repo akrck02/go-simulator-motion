@@ -8,7 +8,7 @@ its properties bobs, spins or follows a path, in real time while you watch the 3
 
 [![Go](https://img.shields.io/github/go-mod/go-version/akrck02/go-simulator-motion)](go.mod)
 ![Plugin](https://img.shields.io/badge/go--simulator-plugin-informational)
-![Protocol](https://img.shields.io/badge/protocol-1-informational)
+![Protocol](https://img.shields.io/badge/protocol-2-informational)
 ![Clock](https://img.shields.io/badge/clock-realtime-3DDC84)
 
 </div>

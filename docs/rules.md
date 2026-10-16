@@ -1,6 +1,6 @@
 # 📏 Rules of the motion plugin
 
-Version 1.0.0, protocol 1. Day cycle, wind gusts, drifting clouds, tides and the motions entities ask for (bob, spin, path).
+Version 1.0.0, protocol 2. Day cycle, wind gusts, drifting clouds, tides and the motions entities ask for (bob, spin, path).
 
 This reference is generated from what the plugin itself tells the host (the `describe` message), so it always
 matches the code. Parameters go under `with:` in a rules file; see go-simulator's
@@ -65,6 +65,6 @@ Raises and lowers the water: turns the tide angle a full turn per period. Height
 Moves the entities that ask for it in their properties: bob (float and roll), spin (turn on an axis) and path (follow points).
 
 - **Reads:** entities with property `bob`, `spin`, `path`
-- **Writes:** `transforms`
+- **Writes:** nothing of its own (it moves the entities that carry `bob`, `spin` or `path`)
 
 No parameters.
