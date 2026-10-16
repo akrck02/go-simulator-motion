@@ -23,6 +23,7 @@ func dayCycleRule() plugin.Definition {
 			Summary:    "Turns the sun around the celestial pole; the stars follow it.",
 			Parameters: []protocol.ParameterDescription{number("seconds_per_day", 120, "how long a whole day lasts")},
 			Reads:      readsEnvironment, Writes: []string{"environment"},
+			Publishes: []protocol.OutputDescription{plugin.Environment("sun_direction", "the direction of the sun")},
 		},
 		New: func(parameters plugin.Parameters) (plugin.Rule, error) {
 			return &dayCycle{secondsPerDay: positive(parameters.Number("seconds_per_day", 120), 120)}, nil
@@ -59,6 +60,7 @@ func gustsRule() plugin.Definition {
 				number("veering", 0.35, "how far the direction swings, in radians"),
 			},
 			Reads: readsEnvironment, Writes: []string{"environment"},
+			Publishes: []protocol.OutputDescription{plugin.Environment("wind", "the wind and its gusts")},
 		},
 		New: func(parameters plugin.Parameters) (plugin.Rule, error) {
 			return &gusts{variation: parameters.Number("variation", 0.5), veering: parameters.Number("veering", 0.35)}, nil
@@ -102,6 +104,7 @@ func cloudDriftRule() plugin.Definition {
 			Summary:    "Moves the clouds with the wind.",
 			Parameters: []protocol.ParameterDescription{number("speed", 0.05, "cloud-pattern units per second at wind strength 1")},
 			Reads:      readsEnvironment, Writes: []string{"environment"},
+			Publishes: []protocol.OutputDescription{plugin.Environment("cloud_offset", "how far the clouds have drifted")},
 		},
 		New: func(parameters plugin.Parameters) (plugin.Rule, error) {
 			return &cloudDrift{speed: positive(parameters.Number("speed", 0.05), 0.05)}, nil
@@ -135,6 +138,7 @@ func tidesRule() plugin.Definition {
 				number("seconds_per_day", 120, "day length used when period_seconds is 0"),
 			},
 			Reads: readsEnvironment, Writes: []string{"environment"},
+			Publishes: []protocol.OutputDescription{plugin.Environment("tide_angle", "where the tide is in its cycle")},
 		},
 		New: func(parameters plugin.Parameters) (plugin.Rule, error) {
 			dayLength := positive(parameters.Number("seconds_per_day", 120), 120)

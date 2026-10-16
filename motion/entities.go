@@ -39,7 +39,8 @@ func entityMotionRule() plugin.Definition {
 		Description: protocol.RuleDescription{
 			Name:    "entity_motion",
 			Summary: "Moves the entities that ask for it in their properties: bob (float and roll), spin (turn on an axis) and path (follow points).",
-			Reads:   world.Interest{Properties: motionProperties}, Writes: []string{"transforms"},
+			// it moves entities other plugins or the scene made, so it publishes nothing of its own
+			Reads: world.Interest{Properties: motionProperties},
 		},
 		New: func(plugin.Parameters) (plugin.Rule, error) {
 			return &entityMotion{moving: map[world.Identifier]*movingEntity{}}, nil
