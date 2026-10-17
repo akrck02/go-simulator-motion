@@ -1,3 +1,5 @@
+<p align="center"><img alt="" src="images/logo.svg" width="120"></p>
+
 # Welcome to go-simulator-motion 👋
 
 **The motion plugin makes a scene feel alive**: the sun crosses the sky, the wind gusts, clouds drift, the tide rises, boats bob and sails turn.

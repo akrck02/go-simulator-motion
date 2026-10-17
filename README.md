@@ -1,5 +1,7 @@
 <div align="center">
 
+<img alt="" src="docs/images/logo.svg" width="120">
+
 # Go motion simulator
 
 **The motions of a living scene, as a plugin for [go-simulator](https://github.com/akrck02/go-simulator).**
