@@ -1,1 +1,1 @@
-{"getting-started":["model"],"how-it-works":["rules"],"model":["getting-started"],"quest":["getting-started","model","readme"],"readme":["getting-started","how-it-works","model","quest","rules"],"rules":[]}
+{"1-overview":["2-the-quest","3-getting-started","4-the-model","5-how-it-works","6-rules-reference"],"2-the-quest":["1-overview","3-getting-started","4-the-model"],"3-getting-started":["4-the-model"],"4-the-model":["3-getting-started"],"5-how-it-works":["6-rules-reference"],"6-rules-reference":[]}

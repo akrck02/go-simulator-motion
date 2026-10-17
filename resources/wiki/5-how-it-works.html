@@ -8,11 +8,11 @@
 
 <p>go-simulator is the host. It loads the scene, keeps the world (its entities and its environment)
 and moves the clock. The motion plugin is a separate program the host starts; they talk over
-standard input and output (go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/protocol.md" target="_blank">protocol</a>).</p>
+standard input and output (go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/2-protocol.md" target="_blank">protocol</a>).</p>
 
 <ul>
 <li>At the start the plugin <strong>describes</strong> itself: its five rules, their parameters, what each one
-reads and what it writes. That description is also where the <a href="./rules">rules reference</a> comes from.</li>
+reads and what it writes. That description is also where the <a href="./6-rules-reference">rules reference</a> comes from.</li>
 <li>The four environment rules read the environment and write <code>environment</code>: the sun direction, the
 wind, the clouds&rsquo; offset and the tide angle.</li>
 <li><code>entity_motion</code> reads only the entities with a <code>bob</code>, <code>spin</code> or <code>path</code> property and writes
@@ -20,10 +20,10 @@ wind, the clouds&rsquo; offset and the tide angle.</li>
 </ul>
 
 <p>A plugin never touches the renderer: it reads its copy of the world and answers with changes
-(go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/writing-plugins.md" target="_blank">writing plugins</a>).
+(go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/4-guides/4-writing-plugins.md" target="_blank">writing plugins</a>).
 The renderer then draws the sky, the sway of plants, the clouds and the water from the environment,
 and the entities where their transforms put them. Shapes are in world units and fields in physical
-units, as go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/vocabulary.md" target="_blank">vocabulary</a> lists.</p>
+units, as go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/1-vocabulary-and-conditions.md" target="_blank">vocabulary</a> lists.</p>
 
 <h2 id="how-the-rules-are-stepped-over-time">How the rules are stepped over time</h2>
 
