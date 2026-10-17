@@ -1,0 +1,184 @@
+<h1 id="rules-of-the-motion-plugin">📏 Rules of the motion plugin</h1>
+
+<p>Version 1.0.0, protocol 2. Day cycle, wind gusts, drifting clouds, tides and the motions entities ask for (bob, spin, path).</p>
+
+<p>This reference is generated from what the plugin itself tells the host (the <code>describe</code> message), so it always
+matches the code. Parameters go under <code>with:</code> in a rules file; see go-simulator&rsquo;s
+<a href="https://github.com/akrck02/go-simulator/blob/main/docs/rules-files.md" target="_blank">rules file reference</a>.</p>
+
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>What it does</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><a href="#day_cycle"><code>day_cycle</code></a></td>
+<td>Turns the sun around the celestial pole; the stars follow it.</td>
+</tr>
+
+<tr>
+<td><a href="#gusts"><code>gusts</code></a></td>
+<td>Varies the wind strength and direction around the wind the world started with.</td>
+</tr>
+
+<tr>
+<td><a href="#cloud_drift"><code>cloud_drift</code></a></td>
+<td>Moves the clouds with the wind.</td>
+</tr>
+
+<tr>
+<td><a href="#tides"><code>tides</code></a></td>
+<td>Raises and lowers the water: turns the tide angle a full turn per period. Heights and phases come with the scene.</td>
+</tr>
+
+<tr>
+<td><a href="#entity_motion"><code>entity_motion</code></a></td>
+<td>Moves the entities that ask for it in their properties: bob (float and roll), spin (turn on an axis) and path (follow points).</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="day-cycle"><code>day_cycle</code></h2>
+
+<p>Turns the sun around the celestial pole; the stars follow it.</p>
+
+<ul>
+<li><strong>Reads:</strong> the environment</li>
+<li><strong>Writes:</strong> <code>environment</code></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>seconds_per_day</code></td>
+<td>number</td>
+<td><code>120</code></td>
+<td>how long a whole day lasts</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="gusts"><code>gusts</code></h2>
+
+<p>Varies the wind strength and direction around the wind the world started with.</p>
+
+<ul>
+<li><strong>Reads:</strong> the environment</li>
+<li><strong>Writes:</strong> <code>environment</code></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>variation</code></td>
+<td>number</td>
+<td><code>0.5</code></td>
+<td>how much the strength changes (0..1)</td>
+</tr>
+
+<tr>
+<td><code>veering</code></td>
+<td>number</td>
+<td><code>0.35</code></td>
+<td>how far the direction swings, in radians</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="cloud-drift"><code>cloud_drift</code></h2>
+
+<p>Moves the clouds with the wind.</p>
+
+<ul>
+<li><strong>Reads:</strong> the environment</li>
+<li><strong>Writes:</strong> <code>environment</code></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>speed</code></td>
+<td>number</td>
+<td><code>0.05</code></td>
+<td>cloud-pattern units per second at wind strength 1</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tides"><code>tides</code></h2>
+
+<p>Raises and lowers the water: turns the tide angle a full turn per period. Heights and phases come with the scene.</p>
+
+<ul>
+<li><strong>Reads:</strong> the environment</li>
+<li><strong>Writes:</strong> <code>environment</code></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>period_seconds</code></td>
+<td>number</td>
+<td><code>0</code></td>
+<td>seconds per tidal cycle (0 = 12.42 h in proportion to seconds_per_day)</td>
+</tr>
+
+<tr>
+<td><code>seconds_per_day</code></td>
+<td>number</td>
+<td><code>120</code></td>
+<td>day length used when period_seconds is 0</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="entity-motion"><code>entity_motion</code></h2>
+
+<p>Moves the entities that ask for it in their properties: bob (float and roll), spin (turn on an axis) and path (follow points).</p>
+
+<ul>
+<li><strong>Reads:</strong> entities with property <code>bob</code>, <code>spin</code>, <code>path</code></li>
+<li><strong>Writes:</strong> nothing of its own (it moves the entities that carry <code>bob</code>, <code>spin</code> or <code>path</code>)</li>
+</ul>
+
+<p>No parameters.</p>

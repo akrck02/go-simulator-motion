@@ -1,0 +1,102 @@
+<h1 id="getting-started">🚀 Getting started</h1>
+
+<h2 id="the-folders-it-needs">The folders it needs</h2>
+
+<p>The plugin is developed next to the projects it uses: <code>go.mod</code> replaces go-simulator and
+go-renderer with the folders beside this one. Clone them side by side:</p>
+<pre><code>go-renderer/
+go-simulator/
+go-simulator-motion/   ← this repository
+</code></pre>
+
+<h2 id="running-the-example">Running the example</h2>
+<pre><code class="language-bash"><span class="nb">cd</span> ../go-simulator
+go run ./cmd/simulator -rules ../go-simulator-motion/examples/living-scene.yaml scene.glb
+</code></pre>
+
+<p><code>scene.glb</code> is any glTF 2.0 scene. The viewer shows it while the plugin moves it.</p>
+
+<p><code>examples/living-scene.yaml</code> starts the plugin with <code>go run</code> from this repository, so it needs no
+installing. After <code>go install github.com/akrck02/go-simulator-motion@latest</code> the command can be
+just <code>[go-simulator-motion]</code>.</p>
+<pre><code class="language-yaml"><span class="nt">plugins</span><span class="p">:</span>
+  - <span class="nt">name</span><span class="p">:</span> <span class="l">motion</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p">[</span><span class="l">go, run, .]</span>
+    <span class="nt">directory</span><span class="p">:</span> <span class="l">..</span>
+
+<span class="nt">stages</span><span class="p">:</span>
+  - <span class="nt">name</span><span class="p">:</span> <span class="l">motion</span>
+    <span class="nt">clock</span><span class="p">:</span> <span class="l">realtime</span>
+    <span class="nt">rules</span><span class="p">:</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">day_cycle</span>
+        <span class="nt">with</span><span class="p">:</span> {<span class="nt">seconds_per_day</span><span class="p">:</span> <span class="m">120</span>}
+        <span class="nt">enabled</span><span class="p">:</span> <span class="kc">false</span>
+        <span class="nt">toggle_key</span><span class="p">:</span> <span class="l">T</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">gusts</span>
+        <span class="nt">with</span><span class="p">:</span> {<span class="nt">variation</span><span class="p">:</span> <span class="nt">0.5, veering</span><span class="p">:</span> <span class="m">0.35</span>}
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">cloud_drift</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">tides</span>
+        <span class="nt">with</span><span class="p">:</span> {<span class="nt">seconds_per_day</span><span class="p">:</span> <span class="m">120</span>}
+        <span class="nt">toggle_key</span><span class="p">:</span> <span class="l">M</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">entity_motion</span>
+</code></pre>
+
+<p>All the rules sit in one stage on a <code>realtime</code> clock, so they follow the viewer&rsquo;s clock. The day
+cycle starts switched off; the rules file&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/rules-files.md" target="_blank">reference</a>
+explains every key.</p>
+
+<h2 id="the-keys">The keys</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What it does</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>T</strong></td>
+<td>Turns the day cycle on and off (<code>toggle_key</code> in the example)</td>
+</tr>
+
+<tr>
+<td><strong>M</strong></td>
+<td>Turns the tides off and on (<code>toggle_key</code> in the example)</td>
+</tr>
+
+<tr>
+<td><strong>P</strong></td>
+<td>Pauses and resumes time</td>
+</tr>
+
+<tr>
+<td><strong>,</strong> and <strong>.</strong></td>
+<td>Halve or double the speed of time</td>
+</tr>
+</tbody>
+</table>
+<p>The viewer&rsquo;s own keys (moving the camera and so on) work as usual.</p>
+
+<h2 id="asking-for-a-motion-in-a-scene">Asking for a motion in a scene</h2>
+
+<p>glTF node extras arrive as the entity&rsquo;s properties, so a scene asks for a motion without any code.
+A boat that bobs, sails that turn and a ferry on a loop, in a scene&rsquo;s <code>nodes</code>:</p>
+<pre><code class="language-json"><span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;boat&#34;</span><span class="p">,</span>  <span class="nt">&#34;extras&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;bob&#34;</span><span class="p">:</span>  <span class="p">{</span> <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nt">&#34;period&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nt">&#34;roll&#34;</span><span class="p">:</span> <span class="mf">0.05</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span><span class="err">,</span>
+<span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;sails&#34;</span><span class="p">,</span> <span class="nt">&#34;extras&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;spin&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;axis&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="nt">&#34;speed&#34;</span><span class="p">:</span> <span class="mf">0.8</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span><span class="err">,</span>
+<span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ferry&#34;</span><span class="p">,</span> <span class="nt">&#34;extras&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;points&#34;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">-30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">-30</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">-30</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="p">[</span><span class="mi">-30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">]],</span>
+                                         <span class="nt">&#34;speed&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nt">&#34;loop&#34;</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre>
+
+<p>Every key and what it is when left out are in <a href="./model">motions</a>. Entities that other
+plugins add later with these properties start moving too.</p>
+
+<h2 id="the-tests">The tests</h2>
+<pre><code class="language-bash">go vet ./...
+go <span class="nb">test</span> ./...
+</code></pre>
+
+<p>The tests run the plugin inside a go-simulator host and check that
+the sun turns, the clouds drift with the wind, the tide turns and can be switched off, the wind
+gusts within its range, that a path goes there and back, and that bob wins over spin.</p>

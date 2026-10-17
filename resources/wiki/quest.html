@@ -1,0 +1,507 @@
+<h1 id="the-motion-quest">The motion quest</h1>
+
+<p>Make a still scene feel alive, one level at a time. Each level teaches one piece of the motion
+plugin and ends with something moving in the viewer.</p>
+
+<p><img src="./images/quest/quest-map.svg" alt="The quest map: a road from START through 5 levels — Timekeeper, Weatherman, Buoy keeper, Miller and Ferryman — to a final challenge, Harbour in motion" /></p>
+
+<p>We take the village of <a href="https://github.com/akrck02/go-scene-builder/blob/master/docs/quest.md" target="_blank">go-scene-builder&rsquo;s quest</a>
+(any <code>.glb</code> works) and make it move: the day passes, the wind gusts, a buoy bobs on the river, a
+weathervane turns and a boat sails a route. You write a tiny plugin of your own that puts the buoy,
+the vane and the boat in the world; the motion plugin moves them.</p>
+
+<hr>
+
+<p>Every level has the same shape: <strong>the idea</strong> (explained with something from everyday life), <strong>the
+rules</strong>, a <strong>checkpoint</strong> to know it works, and an optional <strong>bonus</strong>.</p>
+
+<hr>
+
+<h2 id="before-you-start">Before you start</h2>
+
+<p>You need Go 1.25 and GEOS (<code>sudo apt install libgeos-dev</code>, <code>brew install geos</code>). Clone the projects
+side by side and make a folder with a scene in it:</p>
+<pre><code class="language-sh">git clone https://github.com/akrck02/go-renderer
+git clone https://github.com/akrck02/go-scene-builder
+git clone https://github.com/akrck02/go-simulator
+git clone https://github.com/akrck02/go-simulator-motion
+mkdir lively <span class="o">&amp;&amp;</span> <span class="nb">cd</span> lively
+cp ../village/village.glb .
+</code></pre>
+
+<p>Everything here runs <strong>live</strong>, in go-simulator&rsquo;s viewer:</p>
+<pre><code class="language-sh">go run ../go-simulator/cmd/simulator -rules rules.yaml village.glb
+</code></pre>
+
+<p>The motion rules belong on a <code>realtime</code> clock: they follow the seconds you watch, and the viewer&rsquo;s
+<strong>P</strong> (pause) and <strong>,</strong> <strong>.</strong> (slower, faster) apply to them. The animations below were made with
+the same rules on a stepped clock of half-second steps, captured with <code>-advance</code>.</p>
+
+<hr>
+
+<h2 id="level-1-the-timekeeper">Level 1 · The Timekeeper</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Pieces</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>The day passes in two minutes</td>
+<td><code>day_cycle</code>, a real-time stage, a toggle key</td>
+<td>5 min</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="the-idea">The idea</h4>
+
+<p>The sun does not move: the <strong>earth turns</strong>, and the sun seems to circle round the sky&rsquo;s pole. The
+<code>day_cycle</code> rule turns it round the pole once every <code>seconds_per_day</code>; the renderer works out day,
+twilight and night from how high it is, and the stars and the moon follow.</p>
+
+<h4 id="build-it">Build it</h4>
+
+<p><code>rules.yaml</code>:</p>
+<pre><code class="language-yaml"><span class="nt">plugins</span><span class="p">:</span>
+  - <span class="nt">name</span><span class="p">:</span> <span class="l">motion</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p">[</span><span class="l">go, run, .]</span>
+    <span class="nt">directory</span><span class="p">:</span> <span class="l">../go-simulator-motion</span>
+
+<span class="nt">stages</span><span class="p">:</span>
+  - <span class="nt">name</span><span class="p">:</span> <span class="l">harbour</span>
+    <span class="nt">clock</span><span class="p">:</span> <span class="l">realtime</span>
+    <span class="nt">rules</span><span class="p">:</span>
+      - {<span class="nt">rule</span><span class="p">:</span> <span class="nt">day_cycle, with</span><span class="p">:</span> {<span class="nt">seconds_per_day</span><span class="p">:</span> <span class="nt">120}, toggle_key</span><span class="p">:</span> <span class="l">T}</span>
+</code></pre>
+
+<h4 id="checkpoint">Checkpoint</h4>
+
+<p>The shadows turn, the light goes gold, the village falls into night and the sun comes up again,
+every two minutes. <strong>T</strong> stops the day where it is, and starts it again.</p>
+
+<p><img src="./images/quest/day.gif" alt="Level 1: a day passing over the village, from noon to night" /></p>
+
+<h4 id="bonus-optional-a-slow-afternoon">Bonus (optional): a slow afternoon</h4>
+
+<details>
+<summary>🔓 Show the solution</summary>
+
+`seconds_per_day: 600`, or press **,** to halve the speed of time.
+
+</details>
+
+<p><img src="./images/quest/achievement-timekeeper.svg" alt="Achievement unlocked: Timekeeper" /></p>
+
+<p>Learn more: <a href="./model">Motions: the environment</a></p>
+
+<hr>
+
+<h2 id="level-2-the-weatherman">Level 2 · The Weatherman</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Pieces</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Wind that gusts, clouds that drift, a sea that rises and falls</td>
+<td><code>gusts</code>, <code>cloud_drift</code>, <code>tides</code></td>
+<td>5 min</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="the-idea-1">The idea</h4>
+
+<p>Real wind is never steady: it <strong>breathes</strong>, stronger and weaker, swinging a little either way. The
+<code>gusts</code> rule varies the wind the scene started with, as a sum of three slow waves that never quite
+repeat; plants made to sway bend with it, and <code>cloud_drift</code> moves the clouds along it. <code>tides</code>
+turns the tide&rsquo;s clock, about twice a day, if the scene has a tide.</p>
+
+<p>Each rule only changes what the scene already has: no wind in the scene, no gusts.</p>
+
+<h4 id="build-it-1">Build it</h4>
+<pre><code class="language-yaml">      - {<span class="nt">rule</span><span class="p">:</span> <span class="nt">gusts, with</span><span class="p">:</span> {<span class="nt">variation</span><span class="p">:</span> <span class="nt">0.5, veering</span><span class="p">:</span> <span class="m">0.35</span>}}
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">cloud_drift</span>
+      - {<span class="nt">rule</span><span class="p">:</span> <span class="nt">tides, with</span><span class="p">:</span> {<span class="nt">seconds_per_day</span><span class="p">:</span> <span class="nt">120}, toggle_key</span><span class="p">:</span> <span class="l">M}</span>
+</code></pre>
+
+<h4 id="checkpoint-1">Checkpoint</h4>
+
+<p>The garden&rsquo;s trees sway harder and softer; if the sky has clouds they drift with the wind. The
+village has no tide (its river has no tidal grid); a scene with one, such as go-renderer&rsquo;s sample
+island, rises and falls, and <strong>M</strong> stops it.</p>
+
+<h4 id="bonus-optional-a-storm">Bonus (optional): a storm</h4>
+
+<details>
+<summary>🔓 Show the solution</summary>
+
+`variation: 0.9, veering: 0.8`: the wind changes wildly in strength and swings far.
+
+</details>
+
+<p><img src="./images/quest/achievement-weatherman.svg" alt="Achievement unlocked: Weatherman" /></p>
+
+<hr>
+
+<h2 id="level-3-the-buoy-keeper">Level 3 · The Buoy keeper</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Pieces</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>A buoy that bobs on the river</td>
+<td><code>entity_motion</code>, <code>bob</code>, a plugin that adds things</td>
+<td>10 min</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="the-idea-2">The idea</h4>
+
+<p>The motion plugin moves <strong>things that ask to be moved</strong>: an entity with a <code>bob</code> property bobs, one
+with <code>spin</code> spins, one with <code>path</code> follows a route. It does not care who put the thing there: a
+node of the scene, or another plugin. It is like a <strong>dance teacher</strong> who teaches whoever comes to
+the class with a dance card.</p>
+
+<p>So we write the smallest plugin there is: it adds three things, each with its card, and does
+nothing else.</p>
+
+<h4 id="build-it-2">Build it</h4>
+
+<p><code>props/go.mod</code>:</p>
+<pre><code>module example.com/props
+
+go 1.25.6
+
+require github.com/akrck02/go-simulator v0.0.0
+
+replace (
+	github.com/akrck02/go-simulator =&gt; ../../go-simulator
+	github.com/akrck02/go-renderer =&gt; ../../go-renderer
+	github.com/akrck02/go-scene-builder =&gt; ../../go-scene-builder
+)
+</code></pre>
+
+<p><code>props/main.go</code>:</p>
+<pre><code class="language-go"><span class="c1">// Command props is a tiny plugin that puts things in the harbour for the motion plugin to move: a</span>
+<span class="c1">// buoy that bobs, a weathervane that spins and a boat on a route. It only adds them, once; motion</span>
+<span class="c1">// reads their properties and moves them.</span>
+<span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;log&#34;</span>
+
+	<span class="s">&#34;github.com/akrck02/go-simulator/plugin&#34;</span>
+	<span class="s">&#34;github.com/akrck02/go-simulator/protocol&#34;</span>
+	<span class="s">&#34;github.com/akrck02/go-simulator/spatial&#34;</span>
+	<span class="s">&#34;github.com/akrck02/go-simulator/world&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">props</span> <span class="kd">struct</span><span class="p">{}</span>
+
+<span class="kd">var</span> <span class="nx">propsRule</span> <span class="p">=</span> <span class="nx">plugin</span><span class="p">.</span><span class="nx">Definition</span><span class="p">{</span>
+	<span class="nx">Description</span><span class="p">:</span> <span class="nx">protocol</span><span class="p">.</span><span class="nx">RuleDescription</span><span class="p">{</span>
+		<span class="nx">Name</span><span class="p">:</span>      <span class="s">&#34;props&#34;</span><span class="p">,</span>
+		<span class="nx">Summary</span><span class="p">:</span>   <span class="s">&#34;Adds a buoy, a weathervane and a boat that ask the motion plugin to move them.&#34;</span><span class="p">,</span>
+		<span class="nx">Writes</span><span class="p">:</span>    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;prop&#34;</span><span class="p">},</span>
+		<span class="nx">Publishes</span><span class="p">:</span> <span class="p">[]</span><span class="nx">protocol</span><span class="p">.</span><span class="nx">OutputDescription</span><span class="p">{</span><span class="nx">plugin</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="s">&#34;prop&#34;</span><span class="p">,</span> <span class="s">&#34;a thing that asks for a motion&#34;</span><span class="p">)},</span>
+	<span class="p">},</span>
+	<span class="nx">New</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Parameters</span><span class="p">)</span> <span class="p">(</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Rule</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="o">&amp;</span><span class="nx">props</span><span class="p">{},</span> <span class="kc">nil</span> <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">rule</span> <span class="o">*</span><span class="nx">props</span><span class="p">)</span> <span class="nf">Start</span><span class="p">(</span><span class="nx">context</span> <span class="o">*</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">buoy</span> <span class="o">:=</span> <span class="nx">spatial</span><span class="p">.</span><span class="nf">Translation</span><span class="p">(</span><span class="nx">spatial</span><span class="p">.</span><span class="nx">Vector</span><span class="p">{</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.026</span><span class="p">})</span>
+	<span class="nx">context</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Entity</span><span class="p">{</span><span class="nx">Identifier</span><span class="p">:</span> <span class="s">&#34;buoy&#34;</span><span class="p">,</span> <span class="nx">Kind</span><span class="p">:</span> <span class="s">&#34;prop&#34;</span><span class="p">,</span> <span class="nx">Transform</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">buoy</span><span class="p">,</span>
+		<span class="nx">Shape</span><span class="p">:</span>      <span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Shape</span><span class="p">{</span><span class="nx">Primitive</span><span class="p">:</span> <span class="s">&#34;box&#34;</span><span class="p">,</span> <span class="nx">Size</span><span class="p">:</span> <span class="nx">spatial</span><span class="p">.</span><span class="nx">Vector</span><span class="p">{</span><span class="mf">0.0015</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.0015</span><span class="p">},</span> <span class="nx">Color</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="kt">float32</span><span class="p">{</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}},</span>
+		<span class="nx">Properties</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;label&#34;</span><span class="p">:</span> <span class="s">&#34;Buoy&#34;</span><span class="p">,</span> <span class="s">&#34;icon&#34;</span><span class="p">:</span> <span class="s">&#34;life-buoy&#34;</span><span class="p">,</span> <span class="s">&#34;bob&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;height&#34;</span><span class="p">:</span> <span class="mf">0.0006</span><span class="p">,</span> <span class="s">&#34;period&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#34;roll&#34;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}}})</span>
+
+	<span class="nx">vane</span> <span class="o">:=</span> <span class="nx">spatial</span><span class="p">.</span><span class="nf">Translation</span><span class="p">(</span><span class="nx">spatial</span><span class="p">.</span><span class="nx">Vector</span><span class="p">{</span><span class="mf">0.018</span><span class="p">,</span> <span class="mf">0.028</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">})</span>
+	<span class="nx">context</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Entity</span><span class="p">{</span><span class="nx">Identifier</span><span class="p">:</span> <span class="s">&#34;vane&#34;</span><span class="p">,</span> <span class="nx">Kind</span><span class="p">:</span> <span class="s">&#34;prop&#34;</span><span class="p">,</span> <span class="nx">Transform</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">vane</span><span class="p">,</span>
+		<span class="nx">Shape</span><span class="p">:</span>      <span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Shape</span><span class="p">{</span><span class="nx">Primitive</span><span class="p">:</span> <span class="s">&#34;box&#34;</span><span class="p">,</span> <span class="nx">Size</span><span class="p">:</span> <span class="nx">spatial</span><span class="p">.</span><span class="nx">Vector</span><span class="p">{</span><span class="mf">0.008</span><span class="p">,</span> <span class="mf">0.0006</span><span class="p">,</span> <span class="mf">0.0012</span><span class="p">},</span> <span class="nx">Color</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="kt">float32</span><span class="p">{</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">}},</span>
+		<span class="nx">Properties</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;label&#34;</span><span class="p">:</span> <span class="s">&#34;Weathervane&#34;</span><span class="p">,</span> <span class="s">&#34;icon&#34;</span><span class="p">:</span> <span class="s">&#34;wind&#34;</span><span class="p">,</span> <span class="s">&#34;spin&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;axis&#34;</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="s">&#34;speed&#34;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">}}})</span>
+
+	<span class="nx">boat</span> <span class="o">:=</span> <span class="nx">spatial</span><span class="p">.</span><span class="nf">Identity</span><span class="p">()</span>
+	<span class="nx">context</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Entity</span><span class="p">{</span><span class="nx">Identifier</span><span class="p">:</span> <span class="s">&#34;boat&#34;</span><span class="p">,</span> <span class="nx">Kind</span><span class="p">:</span> <span class="s">&#34;prop&#34;</span><span class="p">,</span> <span class="nx">Transform</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">boat</span><span class="p">,</span>
+		<span class="nx">Shape</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">world</span><span class="p">.</span><span class="nx">Shape</span><span class="p">{</span><span class="nx">Primitive</span><span class="p">:</span> <span class="s">&#34;box&#34;</span><span class="p">,</span> <span class="nx">Size</span><span class="p">:</span> <span class="nx">spatial</span><span class="p">.</span><span class="nx">Vector</span><span class="p">{</span><span class="mf">0.003</span><span class="p">,</span> <span class="mf">0.0015</span><span class="p">,</span> <span class="mf">0.007</span><span class="p">},</span> <span class="nx">Color</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="kt">float32</span><span class="p">{</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">}},</span>
+		<span class="nx">Properties</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;label&#34;</span><span class="p">:</span> <span class="s">&#34;Boat&#34;</span><span class="p">,</span> <span class="s">&#34;icon&#34;</span><span class="p">:</span> <span class="s">&#34;sailboat&#34;</span><span class="p">,</span>
+			<span class="s">&#34;path&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;points&#34;</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{[]</span><span class="kt">any</span><span class="p">{</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0295</span><span class="p">},</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0215</span><span class="p">},</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0315</span><span class="p">}},</span> <span class="s">&#34;speed&#34;</span><span class="p">:</span> <span class="mf">0.004</span><span class="p">,</span> <span class="s">&#34;loop&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">}}})</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">rule</span> <span class="o">*</span><span class="nx">props</span><span class="p">)</span> <span class="nf">Step</span><span class="p">(</span><span class="o">*</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nf">SetFlags</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+	<span class="nx">harbour</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Plugin</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;props&#34;</span><span class="p">,</span> <span class="nx">Version</span><span class="p">:</span> <span class="s">&#34;0.1.0&#34;</span><span class="p">,</span> <span class="nx">Rules</span><span class="p">:</span> <span class="p">[]</span><span class="nx">plugin</span><span class="p">.</span><span class="nx">Definition</span><span class="p">{</span><span class="nx">propsRule</span><span class="p">}}</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">harbour</span><span class="p">.</span><span class="nf">Serve</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Positions are in the scene&rsquo;s kilometres, <code>[x, y, z]</code>, with z growing to the south. Then
+<code>cd props &amp;&amp; go mod tidy &amp;&amp; cd ..</code>, and in <code>rules.yaml</code> a second plugin and two rules:</p>
+<pre><code class="language-yaml"><span class="nt">plugins</span><span class="p">:</span>
+  - {<span class="nt">name</span><span class="p">:</span> <span class="nt">motion, command</span><span class="p">:</span> <span class="nt">[go, run, .], directory</span><span class="p">:</span> <span class="l">../go-simulator-motion}</span>
+  - {<span class="nt">name</span><span class="p">:</span> <span class="nt">props, command</span><span class="p">:</span> <span class="nt">[go, run, .], directory</span><span class="p">:</span> <span class="l">props}</span>
+<span class="l">…</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">props</span>
+      - <span class="nt">rule</span><span class="p">:</span> <span class="l">entity_motion</span>
+</code></pre>
+
+<h4 id="checkpoint-2">Checkpoint</h4>
+
+<p>An orange buoy on the river rises and falls every three seconds, rocking a little, with its label.
+(The vane and the boat move too: the next two levels are about them.)</p>
+
+<p><img src="./images/quest/buoy.gif" alt="Level 3: the buoy bobbing on the river" /></p>
+
+<h4 id="bonus-optional-a-row-of-buoys">Bonus (optional): a row of buoys</h4>
+
+<p>Add three more, a few metres apart. They bob out of step on their own: the phase comes from where
+each one is.</p>
+
+<details>
+<summary>🔓 Show the solution</summary>
+
+<pre><code>for index := 1; index &lt;= 3; index++ {
+	place := spatial.Translation(spatial.Vector{-0.02 + float32(index)*0.008, 0.0115, 0.026})
+	context.Add(&amp;world.Entity{Identifier: world.Identifier(fmt.Sprint("buoy-", index)), Kind: "prop", Transform: &amp;place,
+		Shape:      &amp;world.Shape{Primitive: "box", Size: spatial.Vector{0.0015, 0.002, 0.0015}, Color: &amp;[4]float32{0.9, 0.5, 0.1, 1}},
+		Properties: map[string]any{"bob": map[string]any{"height": 0.0006, "period": 3}}})
+}</code></pre>
+
+</details>
+
+<p><img src="./images/quest/achievement-buoy-keeper.svg" alt="Achievement unlocked: Buoy keeper" /></p>
+
+<p>Learn more: <a href="./model">Motions: entities</a></p>
+
+<hr>
+
+<h2 id="level-4-the-miller">Level 4 · The Miller</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Pieces</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>A weathervane that turns</td>
+<td><code>spin</code></td>
+<td>4 min</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="the-idea-3">The idea</h4>
+
+<p>A mill&rsquo;s sails, a weathervane, a wheel: things that <strong>turn about an axis</strong> from where they rest.
+<code>spin</code> gives the axis in the thing&rsquo;s own frame (<code>[0, 1, 0]</code> is upright) and the speed in radians a
+second (6.3 is a turn a second).</p>
+
+<h4 id="build-it-3">Build it</h4>
+
+<p>The vane in <code>props/main.go</code> already asks for it:</p>
+<pre><code class="language-go"><span class="s">&#34;spin&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;axis&#34;</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="s">&#34;speed&#34;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">}</span>
+</code></pre>
+
+<h4 id="checkpoint-3">Checkpoint</h4>
+
+<p>Over the high street, a dark bar turns about itself, a little more than a quarter turn a second.</p>
+
+<p><img src="./images/quest/vane.gif" alt="Level 4: the weathervane turning over the street" /></p>
+
+<h4 id="bonus-optional-a-mill-s-sails">Bonus (optional): a mill&rsquo;s sails</h4>
+
+<details>
+<summary>🔓 Show the solution</summary>
+
+Lay the axis flat, `"axis": []any{0, 0, 1}`: it turns like sails facing south.
+
+</details>
+
+<p><img src="./images/quest/achievement-miller.svg" alt="Achievement unlocked: Miller" /></p>
+
+<hr>
+
+<h2 id="level-5-the-ferryman">Level 5 · The Ferryman</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Pieces</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>A boat that sails a route and comes back</td>
+<td><code>path</code>, <code>loop</code></td>
+<td>4 min</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="the-idea-4">The idea</h4>
+
+<p>A <strong>bus route</strong>: a list of stops, a speed, and either a loop (back to the first stop, round again)
+or there-and-back. <code>path</code> places the thing on the route at a steady speed, turned to face where it
+goes; <code>&quot;loop&quot;: false</code> brings it back the way it came.</p>
+
+<h4 id="build-it-4">Build it</h4>
+
+<p>The boat in <code>props/main.go</code>:</p>
+<pre><code class="language-go"><span class="s">&#34;path&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span><span class="s">&#34;points&#34;</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{[]</span><span class="kt">any</span><span class="p">{</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0295</span><span class="p">},</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0215</span><span class="p">},</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0115</span><span class="p">,</span> <span class="mf">0.0315</span><span class="p">}},</span> <span class="s">&#34;speed&#34;</span><span class="p">:</span> <span class="mf">0.004</span><span class="p">,</span> <span class="s">&#34;loop&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">}</span>
+</code></pre>
+
+<p>4 metres a second, along the river, under the bridge.</p>
+
+<h4 id="checkpoint-4">Checkpoint</h4>
+
+<p>The blue boat sails east along the river, under the bridge, and some 25 seconds later turns back.</p>
+
+<p><img src="./images/quest/boat.gif" alt="Level 5: the boat sailing along the river under the bridge" /></p>
+
+<p><img src="./images/quest/achievement-ferryman.svg" alt="Achievement unlocked: Ferryman" /></p>
+
+<hr>
+
+<h2 id="final-challenge-harbour-in-motion">Final challenge · Harbour in motion</h2>
+
+<p>All of it at once in one real-time stage, and a key for each part: <strong>T</strong> the day, <strong>G</strong> the gusts,
+<strong>B</strong> the boats and buoys. Start with the day stopped, so the village opens in daylight.</p>
+
+<blockquote>
+<p><strong>Hint:</strong> every rule takes a <code>toggle_key</code>, and <code>enabled: false</code> starts it switched off.</p>
+</blockquote>
+
+<details>
+<summary>🔓 Show the solution</summary>
+
+<pre><code>plugins:
+  - {name: motion, command: [go, run, .], directory: ../go-simulator-motion}
+  - {name: props, command: [go, run, .], directory: props}
+
+stages:
+  - name: harbour
+    clock: realtime
+    rules:
+      - rule: props
+      - {rule: day_cycle, with: {seconds_per_day: 120}, enabled: false, toggle_key: T}
+      - {rule: gusts, with: {variation: 0.5, veering: 0.35}, toggle_key: G}
+      - rule: cloud_drift
+      - {rule: entity_motion, toggle_key: B}</code></pre>
+
+</details>
+
+<p><img src="./images/quest/achievement-final.svg" alt="Rare achievement unlocked: Harbour in motion" /></p>
+
+<hr>
+
+<h2 id="well-done">Well done</h2>
+
+<p><img src="./images/quest/achievements-all.svg" alt="All six achievements: Timekeeper, Weatherman, Buoy keeper, Miller, Ferryman and Harbour in motion" /></p>
+
+<p>The village lives: its day turns, its wind breathes, and things you added move as they were asked.</p>
+
+<h3 id="ideas-to-keep-going">Ideas to keep going</h3>
+
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Difficulty</th>
+<th>Hint</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Motions in the scene itself</td>
+<td>⭐</td>
+<td>glTF node extras become properties: <code>&quot;extras&quot;: {&quot;bob&quot;: {…}}</code> (<a href="./getting-started">getting started</a>)</td>
+</tr>
+
+<tr>
+<td>A ferry that counts its trips</td>
+<td>⭐⭐</td>
+<td>go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/blob/main/docs/quest.md" target="_blank">quest</a></td>
+</tr>
+
+<tr>
+<td>A town that grows while the day turns</td>
+<td>⭐⭐⭐</td>
+<td>A stepped stage with the <a href="https://github.com/akrck02/go-simulator-urban" target="_blank">urban plugin</a> beside this real-time one</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<table>
+<thead>
+<tr>
+<th>You see</th>
+<th>Why, and what to do</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Nothing moves</td>
+<td>The rule is off (<code>enabled: false</code>, or its key pressed), or the stage is not <code>realtime</code> and has no <code>pace</code></td>
+</tr>
+
+<tr>
+<td>The day does not change</td>
+<td>The scene has no sun direction: scenes from go-scene-builder have one</td>
+</tr>
+
+<tr>
+<td>No gusts</td>
+<td>The scene starts with no wind: give it one in the scene&rsquo;s environment</td>
+</tr>
+
+<tr>
+<td>The buoy floats in the air or is buried</td>
+<td>Its height (<code>0.0115</code>) is in scene kilometres: move it a little up or down</td>
+</tr>
+
+<tr>
+<td>An entity bobs instead of following its path</td>
+<td>An entity takes one motion: bob wins over spin, spin over path</td>
+</tr>
+</tbody>
+</table>
+
+<hr>
+
+<p><a href="./readme">← All the documentation</a></p>

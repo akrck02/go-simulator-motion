@@ -1,0 +1,175 @@
+<h1 id="motions">🌊 Motions</h1>
+
+<p>A still scene feels like a photograph. The motion plugin makes it feel alive: the sun crosses the
+sky, the wind picks up and dies down, clouds drift past, the sea rises and falls, boats bob and mill
+sails turn. It works in real time, while you watch the 3D scene. It changes the environment (sun,
+wind, clouds, tide) and the transforms of entities that ask for a motion. Its rules belong on a
+<code>realtime</code> clock; the speed keys of the viewer (<code>,</code> <code>.</code>) and the pause (<code>P</code>) apply to them.</p>
+
+<p align="center">
+  <img alt="Two boxes: the environment, where day_cycle turns the sun direction, gusts the wind, cloud_drift the cloud offset and tides the tide angle; and entities that ask, where the properties bob, spin and path become transforms through entity_motion" src="images/model.svg" width="880">
+</p>
+
+<h2 id="the-environment">The environment</h2>
+
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>What it does</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>day_cycle</code></td>
+<td>Turns the sun around the celestial pole once every <code>seconds_per_day</code> (120); the stars follow it, and the renderer derives day, twilight and night from the sun&rsquo;s height</td>
+</tr>
+
+<tr>
+<td><code>gusts</code></td>
+<td>Varies the wind&rsquo;s strength (<code>variation</code>, 0.5) and direction (<code>veering</code>, 0.35 rad) around the wind the world started with; plants marked to sway bend with it and clouds drift</td>
+</tr>
+
+<tr>
+<td><code>cloud_drift</code></td>
+<td>Moves the clouds with the wind (<code>speed</code>, 0.05)</td>
+</tr>
+
+<tr>
+<td><code>tides</code></td>
+<td>Turns the tide angle a full turn per period (<code>period_seconds</code>; 0 = 12.42 h in proportion to <code>seconds_per_day</code>). The tide&rsquo;s heights and phases come with the scene; the renderer raises the water from them</td>
+</tr>
+</tbody>
+</table>
+<p>Each rule only changes what the world already has: with no sun direction or celestial pole there is
+no day cycle, with no wind there are no gusts, and so on.</p>
+
+<p align="center">
+  <img alt="Four strips over two minutes: the sun's height falls below the horizon and rises again over one day; the wind's strength wanders between about 0.3 and 0.9; its direction swings up to about 20 degrees either side of the starting wind; the tide angle climbs from 0 to 2π and starts over about every 62 seconds" src="images/environment.svg" width="880">
+</p>
+
+<p>The strips above are two minutes of <code>examples/living-scene.yaml</code>, with the day cycle switched on by
+its key. With <code>seconds_per_day: 120</code> the sun goes round once. The wind swings around where it
+started and never quite repeats: it is a sum of three sines whose periods do not divide each other.
+The tide period is the 12.42 hours of the principal lunar semidiurnal tide (known as M2: high water
+twice a day, a little later each day), kept in proportion to the day, so 120 × 12.42 / 24 ≈ 62 seconds.</p>
+
+<p align="center">
+  <img alt="Left: the sun's path across the sky seen from the ground, an arc that rises at the horizon, climbs and sets again, labelled every 20 seconds. Right: the cloud pattern's offset drifting along the wind over two minutes, with the wind drawn every 20 seconds as an arrow whose length is its strength" src="images/sky-and-clouds.svg" width="880">
+</p>
+
+<p>The sun turns around the celestial pole, so it rises, climbs and sets along an arc; the rest of the
+day it is below the horizon. The clouds move with the wind, faster when it blows harder: at
+no wind at all they still creep, at 0.2 × <code>speed</code>, and at strength 1 they move at 1.2 × <code>speed</code>.</p>
+
+<h2 id="entities">Entities</h2>
+
+<p><code>entity_motion</code> moves the entities that ask for it in their properties. glTF node extras arrive as
+properties, so a scene can ask for motions without any code.</p>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Motion</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>&quot;bob&quot;: {&quot;height&quot;: h, &quot;period&quot;: s, &quot;roll&quot;: radians}</code></td>
+<td>Floats up and down with a slight roll (a boat)</td>
+</tr>
+
+<tr>
+<td><code>&quot;spin&quot;: {&quot;axis&quot;: [x, y, z], &quot;speed&quot;: radians per second}</code></td>
+<td>Turns around a local axis (a mill&rsquo;s sails)</td>
+</tr>
+
+<tr>
+<td><code>&quot;path&quot;: {&quot;points&quot;: [[x, y, z], …], &quot;speed&quot;: units per second, &quot;loop&quot;: true}</code></td>
+<td>Follows the points facing where it goes (+Z forward); without <code>loop</code> it turns around at the end</td>
+</tr>
+</tbody>
+</table>
+<p>An entity takes one motion: bob wins over spin, spin over path. Entities added later by other
+plugins start moving as soon as they appear: the rule reads entities with those properties.</p>
+
+<p>What each key is when it is left out:</p>
+
+<table>
+<thead>
+<tr>
+<th>Motion</th>
+<th>Key</th>
+<th>When left out</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>bob</td>
+<td><code>height</code></td>
+<td>0.001 world units</td>
+</tr>
+
+<tr>
+<td>bob</td>
+<td><code>period</code></td>
+<td>4 seconds</td>
+</tr>
+
+<tr>
+<td>bob</td>
+<td><code>roll</code></td>
+<td>0.03 radians</td>
+</tr>
+
+<tr>
+<td>spin</td>
+<td><code>axis</code></td>
+<td><code>[0, 1, 0]</code>, upright</td>
+</tr>
+
+<tr>
+<td>spin</td>
+<td><code>speed</code></td>
+<td>1 radian per second</td>
+</tr>
+
+<tr>
+<td>path</td>
+<td><code>speed</code></td>
+<td>1 world unit per second</td>
+</tr>
+
+<tr>
+<td>path</td>
+<td><code>loop</code></td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+
+<p align="center">
+  <img alt="Three panels. bob: two buoys with the same settings rise and fall out of step, and a hull rolls a little at 0, 1 and 2 seconds. spin: a mill's four sails at five moments half a second apart. path: over two minutes a looping ferry climbs from start to end of its route and starts over, while a skiff without a loop goes to the end and back" src="images/entities.svg" width="880">
+</p>
+
+<ul>
+<li><strong>bob</strong> moves the entity up and down around where it rests and rolls it about its own X axis.
+The phase comes from where the entity is, so two buoys a little apart rise and fall out of step.</li>
+<li><strong>spin</strong> turns the entity about an axis in its own frame, from where it rests.</li>
+<li><strong>path</strong> places the entity on the route at a steady speed and turns it to face along the segment
+it is on. A loop goes back to the first point and starts over; without one, the entity comes back
+the same way. Where the entity rests is replaced by the route; its turn and scale are kept.</li>
+</ul>
+
+<h2 id="use">Use</h2>
+<pre><code class="language-bash"><span class="nb">cd</span> ../go-simulator
+go run ./cmd/simulator -rules ../go-simulator-motion/examples/living-scene.yaml scene.glb
+</code></pre>
+
+<p><code>examples/living-scene.yaml</code> runs the plugin with <code>go run</code>; after <code>go install</code> the command can be
+just <code>[go-simulator-motion]</code>. During development go-simulator and go-renderer are used from the
+folders next to this one (<code>replace</code> in <code>go.mod</code>). More in <a href="./getting-started">getting started</a>.</p>
