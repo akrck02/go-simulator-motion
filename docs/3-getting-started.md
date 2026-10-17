@@ -48,7 +48,7 @@ stages:
 ```
 
 All the rules sit in one stage on a `realtime` clock, so they follow the viewer's clock. The day
-cycle starts switched off; the rules file's [reference](https://github.com/akrck02/go-simulator/blob/main/docs/rules-files.md)
+cycle starts switched off; the rules file's [reference](https://github.com/akrck02/go-simulator/blob/main/docs/4-guides/1-rules-files.md)
 explains every key.
 
 ## The keys
@@ -74,7 +74,7 @@ A boat that bobs, sails that turn and a ferry on a loop, in a scene's `nodes`:
                                          "speed": 4, "loop": true } } }
 ```
 
-Every key and what it is when left out are in [motions](model.md). Entities that other
+Every key and what it is when left out are in [motions](4-the-model.md). Entities that other
 plugins add later with these properties start moving too.
 
 ## The tests

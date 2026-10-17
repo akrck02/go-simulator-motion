@@ -71,7 +71,7 @@ or double the speed of time. A scene asks for an entity's motion in its glTF nod
 { "name": "boat", "extras": { "bob": { "height": 0.5, "period": 4, "roll": 0.05 } } }
 ```
 
-[More on getting started →](docs/getting-started.md)
+[More on getting started →](docs/3-getting-started.md)
 
 ## 🔍 How it works
 
@@ -82,17 +82,17 @@ or double the speed of time. A scene asks for an entity's motion in its glTF nod
 go-simulator keeps the world and moves the clock; every frame it gives the plugin's rules one step
 of that many seconds. The plugin reads its copy of the world and answers with changes to the
 environment and to entities' transforms; it never touches the renderer.
-[More on how it works →](docs/how-it-works.md)
+[More on how it works →](docs/5-how-it-works.md)
 
 ## 📚 Documentation
 
 | | |
 |---|---|
-| [The motion quest](docs/quest.md) | Make a village feel alive in 5 levels. |
-| [Getting started](docs/getting-started.md) | Running the example, the keys, asking for motions in a scene, the tests. |
-| [Motions](docs/model.md) | What every rule moves and the properties entities use, with pictures. |
-| [How it works](docs/how-it-works.md) | How the plugin fits go-simulator, and how the rules are stepped over time. |
-| [Rules reference](docs/rules.md) | Every rule and parameter, generated from the plugin's own description. |
+| [The motion quest](docs/2-the-quest.md) | Make a village feel alive in 5 levels. |
+| [Getting started](docs/3-getting-started.md) | Running the example, the keys, asking for motions in a scene, the tests. |
+| [Motions](docs/4-the-model.md) | What every rule moves and the properties entities use, with pictures. |
+| [How it works](docs/5-how-it-works.md) | How the plugin fits go-simulator, and how the rules are stepped over time. |
+| [Rules reference](docs/6-rules-reference.md) | Every rule and parameter, generated from the plugin's own description. |
 
 ## Licence
 
