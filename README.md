@@ -88,6 +88,7 @@ environment and to entities' transforms; it never touches the renderer.
 
 | | |
 |---|---|
+| [The motion quest](docs/quest.md) | Make a village feel alive in 5 levels. |
 | [Getting started](docs/getting-started.md) | Running the example, the keys, asking for motions in a scene, the tests. |
 | [Motions](docs/model.md) | What every rule moves and the properties entities use, with pictures. |
 | [How it works](docs/how-it-works.md) | How the plugin fits go-simulator, and how the rules are stepped over time. |

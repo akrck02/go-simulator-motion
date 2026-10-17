@@ -2,6 +2,7 @@
 
 | | Page | What is in it |
 |---|---|---|
+| 🏴‍☠️ | [The motion quest](quest.md) | Make a village feel alive in 5 levels: the day, the wind, a buoy, a weathervane, a boat. |
 | 🚀 | [Getting started](getting-started.md) | The folders it needs, running the example, the keys, asking for motions in a scene, the tests. |
 | 🌊 | [Motions](model.md) | What every rule moves (sun, wind, clouds, tide) and the properties entities use to ask for a motion (bob, spin, path), with pictures of each. |
 | 🔍 | [How it works](how-it-works.md) | How the plugin fits go-simulator, how the rules are stepped over time, and how the pictures were made. |
