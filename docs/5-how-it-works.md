@@ -8,20 +8,20 @@
 
 go-simulator is the host. It loads the scene, keeps the world (its entities and its environment)
 and moves the clock. The motion plugin is a separate program the host starts; they talk over
-standard input and output (go-simulator's [protocol](https://github.com/akrck02/go-simulator/blob/main/docs/protocol.md)).
+standard input and output (go-simulator's [protocol](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/2-protocol.md)).
 
 - At the start the plugin **describes** itself: its five rules, their parameters, what each one
-  reads and what it writes. That description is also where the [rules reference](rules.md) comes from.
+  reads and what it writes. That description is also where the [rules reference](6-rules-reference.md) comes from.
 - The four environment rules read the environment and write `environment`: the sun direction, the
   wind, the clouds' offset and the tide angle.
 - `entity_motion` reads only the entities with a `bob`, `spin` or `path` property and writes
   `transforms`.
 
 A plugin never touches the renderer: it reads its copy of the world and answers with changes
-(go-simulator's [writing plugins](https://github.com/akrck02/go-simulator/blob/main/docs/writing-plugins.md)).
+(go-simulator's [writing plugins](https://github.com/akrck02/go-simulator/blob/main/docs/4-guides/4-writing-plugins.md)).
 The renderer then draws the sky, the sway of plants, the clouds and the water from the environment,
 and the entities where their transforms put them. Shapes are in world units and fields in physical
-units, as go-simulator's [vocabulary](https://github.com/akrck02/go-simulator/blob/main/docs/vocabulary.md) lists.
+units, as go-simulator's [vocabulary](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/1-vocabulary-and-conditions.md) lists.
 
 ## How the rules are stepped over time
 

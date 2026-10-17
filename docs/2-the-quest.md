@@ -5,7 +5,7 @@ plugin and ends with something moving in the viewer.
 
 ![The quest map: a road from START through 5 levels — Timekeeper, Weatherman, Buoy keeper, Miller and Ferryman — to a final challenge, Harbour in motion](images/quest/quest-map.svg)
 
-We take the village of [go-scene-builder's quest](https://github.com/akrck02/go-scene-builder/blob/master/docs/quest.md)
+We take the village of [go-scene-builder's quest](https://github.com/akrck02/go-scene-builder/blob/master/docs/2-the-quest.md)
 (any `.glb` works) and make it move: the day passes, the wind gusts, a buoy bobs on the river, a
 weathervane turns and a boat sails a route. You write a tiny plugin of your own that puts the buoy,
 the vane and the boat in the world; the motion plugin moves them.
@@ -90,7 +90,7 @@ every two minutes. **T** stops the day where it is, and starts it again.
 
 ![Achievement unlocked: Timekeeper](images/quest/achievement-timekeeper.svg)
 
-Learn more: [Motions: the environment](model.md#the-environment)
+Learn more: [Motions: the environment](4-the-model.md#the-environment)
 
 ---
 
@@ -267,7 +267,7 @@ each one is.
 
 ![Achievement unlocked: Buoy keeper](images/quest/achievement-buoy-keeper.svg)
 
-Learn more: [Motions: entities](model.md#entities)
+Learn more: [Motions: entities](4-the-model.md#entities)
 
 ---
 
@@ -382,8 +382,8 @@ The village lives: its day turns, its wind breathes, and things you added move a
 
 | Idea | Difficulty | Hint |
 |---|---|---|
-| Motions in the scene itself | ⭐ | glTF node extras become properties: `"extras": {"bob": {…}}` ([getting started](getting-started.md)) |
-| A ferry that counts its trips | ⭐⭐ | go-simulator's [quest](https://github.com/akrck02/go-simulator/blob/main/docs/quest.md) |
+| Motions in the scene itself | ⭐ | glTF node extras become properties: `"extras": {"bob": {…}}` ([getting started](3-getting-started.md)) |
+| A ferry that counts its trips | ⭐⭐ | go-simulator's [quest](https://github.com/akrck02/go-simulator/blob/main/docs/2-the-quest.md) |
 | A town that grows while the day turns | ⭐⭐⭐ | A stepped stage with the [urban plugin](https://github.com/akrck02/go-simulator-urban) beside this real-time one |
 
 ## Troubleshooting
@@ -398,4 +398,4 @@ The village lives: its day turns, its wind breathes, and things you added move a
 
 ---
 
-[← All the documentation](README.md)
+[← All the documentation](1-overview.md)
