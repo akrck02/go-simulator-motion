@@ -2,8 +2,8 @@
 
 ## The folders it needs
 
-The plugin is developed next to the projects it uses: `go.mod` replaces go-simulator and
-go-renderer with the folders beside this one. Clone them side by side:
+The plugin is developed next to the projects it uses: `go.mod` replaces Go Simulator and
+Go Renderer with the folders beside this one. Clone them side by side:
 
 ```
 go-renderer/
@@ -84,6 +84,6 @@ go vet ./...
 go test ./...
 ```
 
-The tests run the plugin inside a go-simulator host and check that
+The tests run the plugin inside a Go Simulator host and check that
 the sun turns, the clouds drift with the wind, the tide turns and can be switched off, the wind
 gusts within its range, that a path goes there and back, and that bob wins over spin.

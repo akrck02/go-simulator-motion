@@ -4,7 +4,7 @@
 
 # Go motion simulator
 
-**The motions of a living scene, as a plugin for [go-simulator](https://github.com/akrck02/go-simulator).**
+**The motions of a living scene, as a plugin for [Go Simulator](https://github.com/akrck02/go-simulator).**
 The day passes, the wind gusts, clouds drift, the tide rises and falls, and whatever asks for it in
 its properties bobs, spins or follows a path, in real time while you watch the 3D scene.
 
@@ -58,7 +58,7 @@ reviewed it line by line. Treat it as a working draft, not as code I vouch for.
 
 ## 🚀 Quick start
 
-Clone [go-simulator](https://github.com/akrck02/go-simulator) and go-renderer next to this
+Clone [Go Simulator](https://github.com/akrck02/go-simulator) and Go Renderer next to this
 repository, then show a glTF scene with the example rules:
 
 ```bash
@@ -78,10 +78,10 @@ or double the speed of time. A scene asks for an entity's motion in its glTF nod
 ## 🔍 How it works
 
 <p align="center">
-  <img alt="The rules file and the scene go into go-simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="docs/images/how-it-works.svg" width="880">
+  <img alt="The rules file and the scene go into Go Simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="docs/images/how-it-works.svg" width="880">
 </p>
 
-go-simulator keeps the world and moves the clock; every frame it gives the plugin's rules one step
+Go Simulator keeps the world and moves the clock; every frame it gives the plugin's rules one step
 of that many seconds. The plugin reads its copy of the world and answers with changes to the
 environment and to entities' transforms; it never touches the renderer.
 [More on how it works →](docs/5-how-it-works.md)
@@ -93,7 +93,7 @@ environment and to entities' transforms; it never touches the renderer.
 | [The motion quest](docs/2-the-quest.md) | Make a village feel alive in 5 levels. |
 | [Getting started](docs/3-getting-started.md) | Running the example, the keys, asking for motions in a scene, the tests. |
 | [Motions](docs/4-the-model.md) | What every rule moves and the properties entities use, with pictures. |
-| [How it works](docs/5-how-it-works.md) | How the plugin fits go-simulator, and how the rules are stepped over time. |
+| [How it works](docs/5-how-it-works.md) | How the plugin fits Go Simulator, and how the rules are stepped over time. |
 | [Rules reference](docs/6-rules-reference.md) | Every rule and parameter, generated from the plugin's own description. |
 
 ## Licence
