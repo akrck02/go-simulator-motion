@@ -3,7 +3,7 @@
 <h2 id="how-the-plugin-fits-go-simulator">How the plugin fits go-simulator</h2>
 
 <p align="center">
-  <img alt="The rules file and the scene go into go-simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="images/how-it-works.svg" width="880">
+  <img alt="The rules file and the scene go into go-simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="./images/how-it-works.svg" width="880">
 </p>
 
 <p>go-simulator is the host. It loads the scene, keeps the world (its entities and its environment)
@@ -28,7 +28,7 @@ units, as go-simulator&rsquo;s <a href="https://github.com/akrck02/go-simulator/
 <h2 id="how-the-rules-are-stepped-over-time">How the rules are stepped over time</h2>
 
 <p align="center">
-  <img alt="Five lanes, one per rule, with a block for every step. day_cycle has no blocks until T is pressed; a grey band where P pauses has no blocks in any lane; after the speed is doubled the blocks are twice as long; after M is pressed the tides lane stops" src="images/rule-over-time.svg" width="880">
+  <img alt="Five lanes, one per rule, with a block for every step. day_cycle has no blocks until T is pressed; a grey band where P pauses has no blocks in any lane; after the speed is doubled the blocks are twice as long; after M is pressed the tides lane stops" src="./images/rule-over-time.svg" width="880">
 </p>
 
 <p>The example&rsquo;s rules are on a <code>realtime</code> clock. Every frame the viewer advances that stage by the
