@@ -15,6 +15,7 @@ jobs:
           title: "Go Motion Simulator"
           description: "The motion plugin of go-simulator: a scene that moves"
           logo: "./docs/images/logo.svg"
+          accent: "#00ACC1"
           path: "./docs"
           isObsidianProject: false
           showFooter: true
