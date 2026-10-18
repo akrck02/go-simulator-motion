@@ -1,14 +1,14 @@
 # 🔍 How it works
 
-## How the plugin fits go-simulator
+## How the plugin fits Go Simulator
 
 <p align="center">
-  <img alt="The rules file and the scene go into go-simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="images/how-it-works.svg" width="880">
+  <img alt="The rules file and the scene go into Go Simulator, the host and its viewer; the host sends the motion plugin a step over standard input and output, and the plugin answers with changes: sun, wind, clouds, tide angle and transforms" src="images/how-it-works.svg" width="880">
 </p>
 
-go-simulator is the host. It loads the scene, keeps the world (its entities and its environment)
+Go Simulator is the host. It loads the scene, keeps the world (its entities and its environment)
 and moves the clock. The motion plugin is a separate program the host starts; they talk over
-standard input and output (go-simulator's [protocol](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/2-protocol.md)).
+standard input and output (Go Simulator's [protocol](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/2-protocol.md)).
 
 - At the start the plugin **describes** itself: its five rules, their parameters, what each one
   reads and what it writes. That description is also where the [rules reference](6-rules-reference.md) comes from.
@@ -18,10 +18,10 @@ standard input and output (go-simulator's [protocol](https://github.com/akrck02/
   `transforms`.
 
 A plugin never touches the renderer: it reads its copy of the world and answers with changes
-(go-simulator's [writing plugins](https://github.com/akrck02/go-simulator/blob/main/docs/4-guides/4-writing-plugins.md)).
+(Go Simulator's [writing plugins](https://github.com/akrck02/go-simulator/blob/main/docs/4-guides/4-writing-plugins.md)).
 The renderer then draws the sky, the sway of plants, the clouds and the water from the environment,
 and the entities where their transforms put them. Shapes are in world units and fields in physical
-units, as go-simulator's [vocabulary](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/1-vocabulary-and-conditions.md) lists.
+units, as Go Simulator's [vocabulary](https://github.com/akrck02/go-simulator/blob/main/docs/5-reference/1-vocabulary-and-conditions.md) lists.
 
 ## How the rules are stepped over time
 
@@ -50,7 +50,7 @@ have been stepped, so a rule switched off and on again picks up where it stopped
 
 The pictures in these pages that show motion (the bay at the top of the README, the strips, the sky
 and the clouds, and the three entity panels) were drawn from the plugin's own answers. A small
-throwaway program, kept outside the repository, ran the real plugin in a go-simulator host with
+throwaway program, kept outside the repository, ran the real plugin in a Go Simulator host with
 `examples/living-scene.yaml`, switched the day cycle on with `T` as the viewer would, put a made-up
 bay in the world (a ferry on a looping path, a skiff on one that goes out and back, two buoys that
 bob, a mill that spins), advanced the clock 0.1 seconds at a time for two minutes, and drew where

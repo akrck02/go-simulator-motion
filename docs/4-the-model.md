@@ -85,5 +85,5 @@ go run ./cmd/simulator -rules ../go-simulator-motion/examples/living-scene.yaml 
 ```
 
 `examples/living-scene.yaml` runs the plugin with `go run`; after `go install` the command can be
-just `[go-simulator-motion]`. During development go-simulator and go-renderer are used from the
+just `[go-simulator-motion]`. During development Go Simulator and Go Renderer are used from the
 folders next to this one (`replace` in `go.mod`). More in [getting started](3-getting-started.md).

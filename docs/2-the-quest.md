@@ -5,7 +5,7 @@ plugin and ends with something moving in the viewer.
 
 ![The quest map: a road from START through 5 levels — Timekeeper, Weatherman, Buoy keeper, Miller and Ferryman — to a final challenge, Harbour in motion](images/quest/quest-map.svg)
 
-We take the village of [go-scene-builder's quest](https://github.com/akrck02/go-scene-builder/blob/master/docs/2-the-quest.md)
+We take the village of [Go Scene Builder's quest](https://github.com/akrck02/go-scene-builder/blob/master/docs/2-the-quest.md)
 (any `.glb` works) and make it move: the day passes, the wind gusts, a buoy bobs on the river, a
 weathervane turns and a boat sails a route. You write a tiny plugin of your own that puts the buoy,
 the vane and the boat in the world; the motion plugin moves them.
@@ -31,7 +31,7 @@ mkdir lively && cd lively
 cp ../village/village.glb .
 ```
 
-Everything here runs **live**, in go-simulator's viewer:
+Everything here runs **live**, in Go Simulator's viewer:
 
 ```sh
 go run ../go-simulator/cmd/simulator -rules rules.yaml village.glb
@@ -120,7 +120,7 @@ Each rule only changes what the scene already has: no wind in the scene, no gust
 #### Checkpoint
 
 The garden's trees sway harder and softer; if the sky has clouds they drift with the wind. The
-village has no tide (its river has no tidal grid); a scene with one, such as go-renderer's sample
+village has no tide (its river has no tidal grid); a scene with one, such as Go Renderer's sample
 island, rises and falls, and **M** stops it.
 
 #### Bonus (optional): a storm
@@ -383,7 +383,7 @@ The village lives: its day turns, its wind breathes, and things you added move a
 | Idea | Difficulty | Hint |
 |---|---|---|
 | Motions in the scene itself | ⭐ | glTF node extras become properties: `"extras": {"bob": {…}}` ([getting started](3-getting-started.md)) |
-| A ferry that counts its trips | ⭐⭐ | go-simulator's [quest](https://github.com/akrck02/go-simulator/blob/main/docs/2-the-quest.md) |
+| A ferry that counts its trips | ⭐⭐ | Go Simulator's [quest](https://github.com/akrck02/go-simulator/blob/main/docs/2-the-quest.md) |
 | A town that grows while the day turns | ⭐⭐⭐ | A stepped stage with the [urban plugin](https://github.com/akrck02/go-simulator-urban) beside this real-time one |
 
 ## Troubleshooting
@@ -391,7 +391,7 @@ The village lives: its day turns, its wind breathes, and things you added move a
 | You see | Why, and what to do |
 |---|---|
 | Nothing moves | The rule is off (`enabled: false`, or its key pressed), or the stage is not `realtime` and has no `pace` |
-| The day does not change | The scene has no sun direction: scenes from go-scene-builder have one |
+| The day does not change | The scene has no sun direction: scenes from Go Scene Builder have one |
 | No gusts | The scene starts with no wind: give it one in the scene's environment |
 | The buoy floats in the air or is buried | Its height (`0.0115`) is in scene kilometres: move it a little up or down |
 | An entity bobs instead of following its path | An entity takes one motion: bob wins over spin, spin over path |
